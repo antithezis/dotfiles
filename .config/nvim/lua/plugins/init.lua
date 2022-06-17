@@ -140,19 +140,17 @@ return packer.startup(function(use)
   use 'tpope/vim-commentary'
   use 'mattn/emmet-vim'
   use 'christoomey/vim-tmux-navigator'
-  use 'turbio/bracey.vim'
-
 
   -- React
   use {'neoclide/coc.nvim', branch = 'release'}
-  use 'ianks/vim-tsx'
-  use 'mxw/vim-jsx'
-  use 'maxmellon/vim-jsx-pretty'
-  use 'pangloss/vim-javascript'
-  use 'alampros/vim-styled-jsx'
   use {'styled-components/vim-styled-components',  branch = 'main' }
   use 'fleischie/vim-styled-components'
-  -- use 'leafgarkabd/typescript-vim'
+
+  -- markdown
+  use({
+      "iamcco/markdown-preview.nvim",
+      run = function() vim.fn["mkdp#util#install"]() end,
+  })
 
   use 'github/copilot.vim'
 
@@ -166,6 +164,12 @@ return packer.startup(function(use)
     "NTBBloodbath/rest.nvim",
     requires = { "nvim-lua/plenary.nvim" },
     config = require "plugins.configs.rest"
+  }
+  
+  use 'lewis6991/impatient.nvim'
+  use {
+    'NvChad/nvterm',
+    config = require "plugins.configs.nvterm"
   }
 
   if PACKER_BOOTSTRAP then

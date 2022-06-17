@@ -10,6 +10,15 @@ vim.g.vim_jsx_pretty_colorful_config = 1
 vim.cmd [[set fcs=eob:\ ]]
 vim.cmd [[filetype plugin indent on]]
 
+
+--Markdown preview config
+
+vim.g.mkdp_auto_start = 1
+vim.g.mkdp_auto_close = 1
+vim.g.mkdp_refresh_slow = 1
+
+
+
 -- vim.cmd[[highlight Normal guibg=NONE ctermbg=NONE]]
 
 local options = {
