@@ -60,6 +60,8 @@ alias lla='lsd -lha --group-dirs=first'
 alias ls='lsd --group-dirs=first'
 alias cat='bat'
 
+alias v='nvim'
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Plugins
