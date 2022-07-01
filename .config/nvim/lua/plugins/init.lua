@@ -44,7 +44,7 @@ return packer.startup(function(use)
 
   use {
     'windwp/nvim-autopairs',
-     -- config = require "plugins.configs.autopairs"
+     config = require "plugins.configs.autopairs"
   }
   use {
     "nvim-telescope/telescope.nvim",
