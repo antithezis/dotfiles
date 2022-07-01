@@ -4,7 +4,7 @@ from .theme import colors
 # Get the icons at https://www.nerdfonts.com/cheat-sheet (you need a Nerd Font)
 
 
-def base(fg='text', bg='dark'):
+def base(fg='text', bg='dark', ts='translucent'):
     return {
         'foreground': colors[fg],
         'background': colors[bg]

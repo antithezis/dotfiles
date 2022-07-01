@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# $HOME/.config/polybar/launch.sh
 # systray battery icon
 cbatticon -u 5 &
 # systray volume
