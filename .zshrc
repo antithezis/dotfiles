@@ -139,4 +139,4 @@ _fzf_comprun() {
 
 export BAT_THEME="Nord"
 
-alias ls="eza --icons=always"
+# alias ls="eza --icons=always"
