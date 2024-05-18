@@ -49,11 +49,11 @@ alias lg='ls -l --group-directories-first'
 alias cat='bat'
 
 # git
-# alias gcl='git clone --depth 1'
-# alias gi='git init'
-# alias ga='git add'
-# alias gc='git commit -m'
-# alias gp='git push'
+alias gcl='git clone --depth 1'
+alias gi='git init'
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push'
 
 
 #ascii converter
