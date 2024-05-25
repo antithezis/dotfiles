@@ -50,7 +50,7 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     # ------------ App Configs ------------
 
     # Menu
-    ([mod], "m", lazy.spawn("rofi -show drun")),
+    ([mod], "m", lazy.spawn("launcher_t7")),
 
     # Window Nav
     ([mod, "shift"], "m", lazy.spawn("rofi -show")),
@@ -59,7 +59,7 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     ([mod], "b", lazy.spawn("firefox")),
 
     # File Explorer
-    ([mod], "e", lazy.spawn("thunar")),
+    ([mod], "e", lazy.spawn("ranger")),
 
     # Terminal
     ([mod], "Return", lazy.spawn("alacritty")),
