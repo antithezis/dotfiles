@@ -6,6 +6,7 @@
 
 from libqtile.config import Key
 from libqtile.command import lazy
+from os.path import expanduser
 
 
 mod = "mod4"
@@ -45,12 +46,12 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     ([mod, "control"], "r", lazy.restart()),
 
     ([mod, "control"], "q", lazy.shutdown()),
-    ([mod], "r", lazy.spawncmd()),
+    # ([mod], "r", lazy.spawncmd()),
 
     # ------------ App Configs ------------
 
     # Menu
-    ([mod], "m", lazy.spawn("launcher_t7")),
+    ([mod], "m",lazy.spawn(expanduser("~/.config/rofi/launchers/type-7/launcher.sh"), shell=True)),
 
     # Window Nav
     ([mod, "shift"], "m", lazy.spawn("rofi -show")),
@@ -59,7 +60,7 @@ keys = [Key(key[0], key[1], *key[2:]) for key in [
     ([mod], "b", lazy.spawn("firefox")),
 
     # File Explorer
-    ([mod], "e", lazy.spawn("ranger")),
+    ([mod], "e", lazy.spawn("alacritty -e ranger")),
 
     # Terminal
     ([mod], "Return", lazy.spawn("alacritty")),

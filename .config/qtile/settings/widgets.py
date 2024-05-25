@@ -82,11 +82,11 @@ primary_widgets = [
         custom_command='checkupdates',
     ),
 
-    powerline('color3', 'color4'),
+    # powerline('color3', 'color4'),
 
-    icon(bg="color3", text=' '),  # Icon: nf-fa-feed
+    # icon(bg="color3", text=' '),  # Icon: nf-fa-feed
     
-    widget.Net(**base(bg='color3'), interface='wlp2s0'),
+    # widget.Net(**base(bg='color3'), interface='wlp2s0'),
 
     powerline('color2', 'color3'),
 
