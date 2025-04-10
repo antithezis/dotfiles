@@ -1,0 +1,8 @@
+[
+  {
+    "label": "Sync Obsiandian Vault",
+    "command": "cd /Users/juanballen/Documents/obsidian-vault && git add . && git commit -m \"$(date '+%Y-%m-%d %H:%M:%S')\" && git push",
+    "use_new_terminal": true,
+    "reveal": "no_focus"
+  }
+]
