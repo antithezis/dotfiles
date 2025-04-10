@@ -1,3 +1,4 @@
+```bash
 sudo pacman -S fzf fd ripgrep neovim lazygit nodejs npm ranger locate bat eza zoxide ttf-jetbrains-mono-nerd stow tmux
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -8,4 +9,4 @@ git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugi
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 
 git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-
+```
