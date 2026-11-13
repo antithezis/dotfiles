@@ -1,0 +1,325 @@
+# =============================================================================
+# 1. POWERLEVEL10K INSTANT PROMPT (Must be near the top)
+# =============================================================================
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# =============================================================================
+# 2. ENVIRONMENT VARIABLES & PATH CONFIGURATION
+# =============================================================================
+export OLLAMA_MODELS="/Users/antithezis/Documents/llama/models/"
+export DOTNET_ROOT="/usr/local/share/dotnet"
+
+CLAUDE_CODE_FORCE_SESSION_PERSISTENCE=1
+
+# Build PATH cleanly and eliminate duplicates
+typeset -U path
+path=(
+  $HOME/bin
+  $HOME/.local/bin
+  /usr/local/bin
+  $HOME/.cargo/bin
+  $HOME/.local/share/bob/nvim-bin
+  /Users/antithezis/.antigravity/antigravity/bin
+  /Users/antithezis/.antigravity-ide/antigravity-ide/bin
+  /Users/antithezis/.opencode/bin
+  $DOTNET_ROOT
+  $path
+)
+export PATH
+
+# =============================================================================
+# 3. ENVIRONMENT MANAGERS (Conda, Fnm)
+# =============================================================================
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# fnm must be initialized AFTER all PATH modifications so its bin directory
+# takes precedence over Homebrew's node.
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env --use-on-cd --shell zsh)"
+fi
+
+# =============================================================================
+# 4. ZINIT PLUGIN MANAGER & COMPLETIONS
+# =============================================================================
+fpath=(~/.zsh/completion $fpath)
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+autoload -Uz compinit; compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Load a few important annexes, without Turbo
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+### End of Zinit's installer chunk
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
+
+zinit snippet OMZL::git.zsh
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::docker
+
+if command -v docker >/dev/null 2>&1; then
+  source <(docker completion zsh)
+fi
+
+# =============================================================================
+# 5. HISTORY CONFIGURATION
+# =============================================================================
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_ALL_DUPS  # No guardar duplicados
+setopt HIST_IGNORE_SPACE     # Ignorar comandos que empiezan con espacio
+setopt HIST_SAVE_NO_DUPS     # No guardar duplicados al salir
+setopt HIST_REDUCE_BLANKS    # Eliminar espacios en blanco innecesarios
+setopt SHARE_HISTORY         # Compartir historial entre sesiones
+setopt APPEND_HISTORY        # Añadir al historial, no sobrescribir
+setopt INC_APPEND_HISTORY    # Añadir comandos inmediatamente
+
+# =============================================================================
+# 6. KEY BINDINGS & INTERACTION
+# =============================================================================
+# Aceptar sugerencias de autosuggestions con Ctrl-Y
+bindkey '^Y' autosuggest-accept
+
+# Búsqueda en historial basada en el texto ya escrito (Ctrl+P / Ctrl+N)
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey '^P' history-beginning-search-backward-end  # Ctrl+P: buscar hacia atrás
+bindkey '^N' history-beginning-search-forward-end   # Ctrl+N: buscar hacia adelante
+
+# Función mejorada para historial con fzf (CTRL-H)
+if command -v fzf &> /dev/null; then
+  fzf-history() {
+    local selected
+    selected=$(fc -rl 1 | fzf --tac --no-sort --tiebreak=index --query="$LBUFFER")
+    if [[ -n $selected ]]; then
+      LBUFFER=$(echo $selected | sed 's/^[ ]*[0-9]*[ ]*//')
+      zle redisplay
+    fi
+  }
+  zle -N fzf-history
+  bindkey '^H' fzf-history
+fi
+
+# Cargar key bindings y autocompletado de fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [[ -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh ]]; then
+  source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+  source /opt/homebrew/opt/fzf/shell/completion.zsh
+fi
+
+# =============================================================================
+# 7. FZF CONFIGURATION
+# =============================================================================
+if command -v fzf &> /dev/null; then
+  # Detectar tema del sistema (macOS)
+  if [[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == "Dark" ]]; then
+    # Rose Pine (tema oscuro)
+    export FZF_DEFAULT_OPTS="
+      --height 40%
+      --layout=reverse
+      --border
+      --inline-info
+      --color=fg:#e0def4,bg:#191724,hl:#ebbcba
+      --color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
+      --color=info:#9ccfd8,prompt:#c4a7e7,pointer:#f6c177
+      --color=marker:#eb6f92,spinner:#f6c177,header:#ebbcba
+      --color=border:#6e6a86,gutter:#191724
+      --bind 'ctrl-y:accept'"
+  else
+    # Rose Pine Dawn (tema claro)
+    export FZF_DEFAULT_OPTS="
+      --height 40%
+      --layout=reverse
+      --border
+      --inline-info
+      --color=fg:#575279,bg:#faf4ed,hl:#d7827e
+      --color=fg+:#575279,bg+:#f2e9e1,hl+:#d7827e
+      --color=info:#56949f,prompt:#907aa9,pointer:#ea9d34
+      --color=marker:#b4637a,spinner:#ea9d34,header:#d7827e
+      --color=border:#9893a5,gutter:#faf4ed
+      --bind 'ctrl-y:accept'"
+  fi
+
+  # Usar fd si está disponible (más rápido que find)
+  if command -v fd &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+  fi
+
+  # Preview con bat si está disponible
+  if command -v bat &> /dev/null; then
+    export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+  fi
+
+  # Preview de directorios con eza
+  if command -v eza &> /dev/null; then
+    export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --level=2 --color=always {}'"
+  fi
+fi
+
+# =============================================================================
+# 8. ALIASES & CUSTOM FUNCTIONS
+# =============================================================================
+alias vim="nvim"
+alias colorscript="./Documents/Repos/shell-color-scripts/colorscript.sh"
+
+# Claude Code: herdr no responde la consulta de fondo, así que el tema "auto" falla.
+# Elegimos dark/light según la apariencia de macOS al arrancar.
+claude() {
+  local _t=light
+  [[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == Dark ]] && _t=dark
+  command claude --settings "{\"theme\":\"$_t\"}" "$@"
+}
+
+# Zoxide (navegación de directorios inteligente)
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+  alias cd="z"
+fi
+
+# EZA Aliases (reemplazo moderno de ls con iconos)
+if command -v eza &> /dev/null; then
+  alias ls='eza --icons --group-directories-first'
+  alias ll='eza -l --icons --group-directories-first --git'
+  alias lla='eza -la --icons --group-directories-first --git'
+  alias la='eza -la --icons --group-directories-first --git'
+  alias lt='eza --tree --icons --level=2 --group-directories-first'
+  alias lta='eza --tree --icons --level=2 --group-directories-first -a'
+  alias l='eza -lah --icons --group-directories-first --git'
+  alias lsiz='eza -lh --icons --group-directories-first --total-size --sort=size'
+fi
+
+# BAT Configuration (reemplazo moderno de cat)
+if command -v bat &> /dev/null; then
+  alias cat='bat --style=auto'
+  alias catp='bat --style=plain'  # Sin números de línea ni decoraciones
+  alias cath='bat --style=header' # Solo header
+  export BAT_THEME="Catppuccin Mocha"
+  export BAT_STYLE="numbers,changes,header"
+fi
+
+# Función para buscar contenido en archivos con ripgrep + fzf (rgg)
+if command -v rg &> /dev/null && command -v fzf &> /dev/null; then
+  fzf-rg() {
+    local selected
+    selected=$(rg --color=always --line-number --no-heading --smart-case "${*:-}" |
+      fzf --ansi \
+          --delimiter : \
+          --preview 'bat --color=always --highlight-line {2} {1}' \
+          --preview-window 'up,60%,border-bottom,+{2}+3/3,~3')
+    if [[ -n $selected ]]; then
+      local file=$(echo $selected | cut -d: -f1)
+      local line=$(echo $selected | cut -d: -f2)
+      ${EDITOR:-nvim} "$file" "+$line"
+    fi
+  }
+  alias rgg='fzf-rg'
+fi
+
+# Función para buscar y cambiar ramas de git con fzf (gb)
+if command -v git &> /dev/null && command -v fzf &> /dev/null; then
+  fzf-git-branch() {
+    local branches branch
+    branches=$(git --no-pager branch -a --format='%(refname:short)') &&
+    branch=$(echo "$branches" | fzf --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" {} | head -200') &&
+    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/origin/##")
+  }
+  alias gb='fzf-git-branch'
+fi
+
+# Función para ver git log con fzf (gl)
+if command -v git &> /dev/null && command -v fzf &> /dev/null; then
+  fzf-git-log() {
+    git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+    fzf --ansi --no-sort --reverse --tiebreak=index \
+      --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | head -1 | xargs git show --color=always' \
+      --bind "enter:execute:grep -o '[a-f0-9]\{7,\}' <<< {} | head -1 | xargs git show | less -R"
+  }
+  alias gl='fzf-git-log'
+fi
+
+# pi con llama-server bajo demanda: arranca el router (launchd: local.llama-server)
+# al abrir pi y lo detiene al cerrar la última sesión de pi (pi se llama "pi" en ps).
+_pi_llama_release() {
+  pgrep -x pi >/dev/null || launchctl kill TERM "gui/$UID/local.llama-server" 2>/dev/null
+}
+pi() {
+  setopt localoptions localtraps
+  local job="gui/$UID/local.llama-server" i rc
+  if ! launchctl print "$job" 2>/dev/null | grep -q 'state = running'; then
+    launchctl kickstart "$job" >/dev/null
+    for i in {1..40}; do
+      curl -sf http://127.0.0.1:8080/health >/dev/null && break
+      sleep 0.25
+    done
+  fi
+  trap '_pi_llama_release' HUP
+  command pi "$@"
+  rc=$?
+  _pi_llama_release
+  return $rc
+}
+
+# Fastfetch con animación ASCII de dragón volando sobre montañas (~4s)
+fastfetch() {
+  if [[ $# -eq 0 && -t 1 && -f "$HOME/.config/fastfetch/dragon_anim.py" ]]; then
+    local info
+    info="$(command fastfetch --logo-type none --pipe false)"
+    FASTFETCH_INFO="$info" python3 "$HOME/.config/fastfetch/dragon_anim.py"
+  else
+    command fastfetch "$@"
+  fi
+}
+
+# =============================================================================
+# 9. PROMPT CONFIGURATION (Powerlevel10k)
+# =============================================================================
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH="$(brew --prefix postgresql@18)/bin:$PATH"
+
+export PATH=$PATH:/Users/antithezis/.spicetify

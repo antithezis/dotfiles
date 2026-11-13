@@ -1,0 +1,181 @@
+{
+  "cli_default_open_behavior": "existing_window",
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "theme": {
+    "mode": "system",
+    "light": "Rosé Pine Dawn",
+    "dark": "Rosé Pine"
+  },
+  "agent_buffer_font_size": 16.0,
+  "agent_ui_font_size": 15.0,
+  "lsp": {
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          }
+        },
+        "javascript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          }
+        }
+      },
+      "enable_lsp_tasks": true
+    }
+  },
+  "agent_servers": {
+    "antigravity-acp": {
+      "type": "registry"
+    },
+    "github-copilot-cli": {
+      "default_config_options": {
+        "model": "gpt-5.6-sol",
+        "reasoning_effort": "low",
+        "mode": "https://agentclientprotocol.com/protocol/session-modes#autopilot"
+      },
+      "type": "registry"
+    },
+    "opencode": {
+      "type": "registry"
+    },
+    "claude-acp": {
+      "default_config_options": {
+        "model": "gpt-4.1"
+      },
+      "type": "registry"
+    },
+    "github-copilot": {
+      "default_model": "claude-opus-4.5",
+      "favorite_models": [
+        "claude-opus-4.5"
+      ],
+      "type": "registry"
+    }
+  },
+  "edit_predictions": {
+    "provider": "zed"
+  },
+  "context_servers": {
+    "figma": {
+      "enabled": false,
+      "url": "https://mcp.figma.com/mcp"
+    },
+    "mcp-server-figma": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "figma_api_key": "YOUR_FIGMA_ACCESS_TOKEN"
+      }
+    },
+    "chrome-mcp": {
+      "enabled": true,
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest"
+      ],
+      "env": {}
+    }
+  },
+  "zoomed_padding": true,
+  "git_panel": {
+    "dock": "right",
+    "scrollbar": {},
+    "sort_by_path": false
+  },
+  "outline_panel": {
+    "dock": "right",
+    "file_icons": true
+  },
+  "preview_tabs": {
+    "enable_preview_file_from_code_navigation": true,
+    "enable_preview_from_file_finder": false,
+    "enabled": true
+  },
+  "debugger": {
+    "button": true
+  },
+  "search": {
+    "button": false
+  },
+  "tab_bar": {
+    "show_nav_history_buttons": true,
+    "show": false,
+    "show_tab_bar_buttons": true
+  },
+  "tabs": {
+    "close_position": "right",
+    "file_icons": true,
+    "git_status": true
+  },
+  "title_bar": {
+    "show_branch_status_icon": true,
+    "show_sign_in": true,
+    "show_onboarding_banner": false,
+    "show_project_items": true,
+    "show_branch_name": true,
+    "show_menus": false,
+    "show_user_picture": true
+  },
+  "diagnostics": {
+    "button": true
+  },
+  "terminal": {
+    "button": false
+  },
+  "status_bar": {
+    "cursor_position_button": false,
+    "active_language_button": true
+  },
+  "buffer_line_height": "comfortable",
+  "buffer_font_weight": 400.0,
+  "agent": {
+    "dock": "left",
+    "tool_permissions": {
+      "default": "allow"
+    },
+    "use_modifier_to_send": true,
+    "play_sound_when_agent_done": "always",
+    "default_model": {
+      "effort": "high",
+      "enable_thinking": true,
+      "provider": "copilot_chat",
+      "model": "claude-sonnet-4.6"
+    },
+    "model_parameters": [],
+    "inline_assistant_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4.1"
+    },
+  },
+  "icon_theme": "Symbols Icon Theme",
+  "project_panel": {
+    "folder_indicator": "icon",
+    "hide_hidden": false,
+    "hide_root": false,
+    "auto_reveal_entries": true,
+    "git_status": true,
+    "file_icons": true,
+    "hide_gitignore": false,
+    "button": false,
+    "dock": "right"
+  },
+  "ui_font_size": 16.0,
+  "buffer_font_size": 18.0,
+  "vim_mode": true,
+  "buffer_font_family": "DankMono Nerd Font",
+  "ui_font_family": "DankMono Nerd Font",
+  "cursor_blink": false,
+  "relative_line_numbers": "enabled",
+  "scrollbar": {
+    "show": "never"
+  },
+  "languages": {
+    "PHP": {
+      "language_servers": ["intelephense", "..."]
+    }
+  }
+}

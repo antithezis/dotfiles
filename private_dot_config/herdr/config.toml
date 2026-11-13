@@ -1,0 +1,25 @@
+onboarding = false
+
+[theme]
+# Follow Ghostty's light/dark appearance (theme = dark:Rose Pine,light:Rose Pine Dawn)
+auto_switch = true
+dark_name = "rose-pine"
+light_name = "rose-pine-dawn"
+
+[keys]
+# Navegación que herdr deja sin atajo por defecto
+previous_workspace = "prefix+k"
+next_workspace = "prefix+j"
+# h/l cambian de tab (p/n siguen funcionando)
+previous_tab = ["prefix+p", "prefix+h"]
+next_tab = ["prefix+n", "prefix+l"]
+# Paneles con las flechas
+focus_pane_left = "prefix+left"
+focus_pane_right = "prefix+right"
+focus_pane_up = "prefix+up"
+focus_pane_down = "prefix+down"
+switch_workspace = "prefix+ctrl+1..9"   # ir al workspace 1-9
+previous_agent = "prefix+shift+a"
+next_agent = "prefix+a"
+focus_agent = "ctrl+alt+1..9"           # ir al agente 1-9, sin prefix
+last_pane = "prefix+u"                  # volver al último panel (u = último)

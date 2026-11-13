@@ -1,0 +1,27 @@
+[user]
+	name = David Ballén
+	email = juandbm2001@gmail.com
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[credential]
+	helper = !aws codecommit credential-helper $@
+	UseHttpPath = true
+[core]
+	pager = delta-auto
+[interactive]
+	diffFilter = delta-auto --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+	hyperlinks = true
+[merge]
+	conflictStyle = zdiff3
+[diff]
+	colorMoved = default
+
+# Work identity + fail-fast ssh for every repo under Personalsoft.
+[includeIf "gitdir/i:~/Documents/Workspace/Personalsoft/"]
+	path = personalsoft

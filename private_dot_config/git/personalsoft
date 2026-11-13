@@ -1,0 +1,7 @@
+# Loaded by ~/.config/git/config for repos under ~/Documents/Workspace/Personalsoft.
+[user]
+	name = Juan David Ballén Medina
+	email = jdballen@personalsoft.com
+[core]
+	# Key comes from ~/.ssh/config; the wrapper only aborts Azure's VS403463 hang.
+	sshCommand = ~/.local/bin/git-ssh-failfast -o ConnectTimeout=15
