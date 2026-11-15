@@ -8,5 +8,3 @@ adjust-cell-height = 20%
 # Contraste legible en ambos temas (Rose Pine / Rose Pine Dawn)
 # Texto atenuado (líneas de contexto de diffs, hints) menos transparente
 faint-opacity = 0.8
-# Fuerza contraste mínimo texto/fondo aunque la app elija mal los colores
-minimum-contrast = 3
