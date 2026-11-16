@@ -1,0 +1,39 @@
+# =============================================================================
+# 1. POWERLEVEL10K INSTANT PROMPT (Must stay near the top)
+# =============================================================================
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# =============================================================================
+# 2. ENVIRONMENT & PATH
+# =============================================================================
+[[ -r "$ZDOTDIR/env.zsh" ]] && source "$ZDOTDIR/env.zsh"
+
+# =============================================================================
+# 3. HISTORY
+# =============================================================================
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+
+# =============================================================================
+# 4. MODULES
+# =============================================================================
+for _mod in plugins fzf aliases functions; do
+  [[ -r "$ZDOTDIR/${_mod}.zsh" ]] && source "$ZDOTDIR/${_mod}.zsh"
+done
+unset _mod
+
+# =============================================================================
+# 5. PROMPT (Powerlevel10k)
+# =============================================================================
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+[[ -r "$ZDOTDIR/.p10k.zsh" ]] && source "$ZDOTDIR/.p10k.zsh"

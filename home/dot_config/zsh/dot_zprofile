@@ -1,0 +1,2 @@
+# Login shell environment (runs after macOS /etc/zprofile path_helper)
+[[ -r "$ZDOTDIR/env.zsh" ]] && source "$ZDOTDIR/env.zsh"
